@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Prata&display=swap');
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+* {
+  font-family: 'Outfit';
+}
+
+select, input, textarea{
+  border: 1px solid #d8cabc;
+  outline-color: #111111;
+  border-radius: 0;
+  background-color: #ffffff;
+}
+.active {
+  background-color: #f3eee8;
+  border-color: #d8cabc;
+  color: #111111;
+}
