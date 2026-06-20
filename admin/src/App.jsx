@@ -6,8 +6,6 @@ import Add from './pages/Add';
 import List from './pages/List';
 import Orders from './pages/Orders';
 import Login from './components/Login.jsx';
-import { ToastContainer, } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 export const currency = '₹';
 
@@ -24,7 +22,6 @@ const App = () => {
 
   return (
     <div className="bg-[#fbfaf8] min-h-screen text-[#222]">
-    <ToastContainer/>
       {token === '' ? (
         <Login setToken={setToken}  />
       ) : (

@@ -11,7 +11,7 @@ import PlaceOrder from './pages/PlaceOrder'
 import Orders from './pages/Orders'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
-import { ToastContainer } from 'react-toastify'
+import StatusBadge from './components/StatusBadge'
 
 const ScrollToTop = () => {
   const { pathname, search } = useLocation()
@@ -26,7 +26,7 @@ const ScrollToTop = () => {
 const App = () => {
   return (
     <div className=''>
-      <ToastContainer />
+      <StatusBadge />
       <ScrollToTop />
       <Navbar />
       <Routes>

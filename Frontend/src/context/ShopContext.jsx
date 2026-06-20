@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 
-import { toast } from "react-toastify";
+import { showStatus } from '../utils/statusNotification'
 import { useNavigate } from "react-router-dom";
 import axios from 'axios'
 
@@ -19,7 +19,7 @@ const ShopContextProvider =(props) =>{
 
     const addToCart=async(itemId,size)=>{
         if(!size){
-            toast.error("Select Product Size");
+            showStatus('Select a product size', 'error');
             return;
         }
         let cartData=structuredClone(cartItems);
@@ -44,7 +44,7 @@ const ShopContextProvider =(props) =>{
             }
             catch(error){
                 console.log(error);
-                toast.error(error.message)
+                showStatus(error.message, 'error')
             }
         }
         
@@ -96,7 +96,7 @@ const ShopContextProvider =(props) =>{
             }
             catch(error){
                 console.log(error);
-                toast.error(error.message)
+                showStatus(error.message, 'error')
             }
         }
        
@@ -111,7 +111,7 @@ const ShopContextProvider =(props) =>{
         }
         catch (error){
             console.log(error)
-            toast.error(error.message)
+            showStatus(error.message, 'error')
         }
     }
 
@@ -122,12 +122,12 @@ const ShopContextProvider =(props) =>{
                 setProducts(response.data.products);
             }
             else{
-                toast.error(response.data.message)
+                showStatus(response.data.message, 'error')
             }
         }
         catch (error){
             console.log(error)
-            toast.error(error.message)
+            showStatus(error.message, 'error')
         }
     }
     useEffect(()=>{

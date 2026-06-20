@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import CartTotal from '../components/CartTotal'
 import { ShopContext } from '../context/ShopContext'
 import { assets } from '../assets/assets'
-import { toast } from 'react-toastify'
+import { showStatus } from '../utils/statusNotification'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { ArrowRight, Info } from 'lucide-react'
@@ -54,7 +54,7 @@ const PlaceOrder = () => {
 
   const initPay = (order, keyId) => {
     if (!window.Razorpay) {
-      toast.error('Razorpay checkout failed to load. Please try again.')
+      showStatus('Razorpay checkout failed to load', 'error')
       setIsSubmitting(false)
       return
     }
@@ -77,13 +77,14 @@ const PlaceOrder = () => {
           )
 
           if (data.success) {
+            showStatus('Payment successful', 'success')
             navigate('/orders')
             setCartItems({})
           } else {
-            toast.error(data.message)
+            showStatus(data.message, 'error')
           }
         } catch (error) {
-          toast.error(error.message)
+          showStatus(error.message, 'error')
         } finally {
           setIsSubmitting(false)
         }
@@ -95,7 +96,7 @@ const PlaceOrder = () => {
 
     const rzp = new window.Razorpay(options)
     rzp.on('payment.failed', (response) => {
-      toast.error(response.error?.description || 'Payment failed. Please try again.')
+      showStatus(response.error?.description || 'Payment failed. Please try again.', 'error')
       setIsSubmitting(false)
     })
     rzp.open()
@@ -132,7 +133,7 @@ const PlaceOrder = () => {
       }
 
       if (orderItems.length === 0) {
-        toast.error('Your cart is empty')
+        showStatus('Your cart is empty', 'error')
         setIsSubmitting(false)
         return
       }
@@ -145,10 +146,11 @@ const PlaceOrder = () => {
         )
 
         if (response.data.success) {
+          showStatus('Order placed successfully', 'success')
           setCartItems({})
           navigate('/orders')
         } else {
-          toast.error(response.data.message)
+          showStatus(response.data.message, 'error')
         }
         setIsSubmitting(false)
       }
@@ -163,13 +165,13 @@ const PlaceOrder = () => {
         if (responseRazorpay.data.success) {
           initPay(responseRazorpay.data.order, responseRazorpay.data.keyId)
         } else {
-          toast.error(responseRazorpay.data.message)
+          showStatus(responseRazorpay.data.message, 'error')
           setIsSubmitting(false)
         }
       }
     } catch (error) {
       console.error(error)
-      toast.error(error.message)
+      showStatus(error.message, 'error')
       setIsSubmitting(false)
     }
   }

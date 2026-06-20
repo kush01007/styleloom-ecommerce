@@ -2,7 +2,7 @@ import React, { useContext, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { ShopContext } from '../context/ShopContext'
 import RelatedProducts from '../components/RelatedProducts'
-import { toast } from 'react-toastify'
+import { showStatus } from '../utils/statusNotification'
 import {
   ShoppingBag,
   ShieldCheck,
@@ -34,12 +34,12 @@ const Product = () => {
 
   const handleAddToCart = () => {
     if (!size) {
-      toast.error('Please select a size!')
+      showStatus('Please select a size', 'error')
       return
     }
 
     addToCart(productData._id, size)
-    toast.success('Added to cart!')
+    showStatus('Added to cart', 'success', 'bottom-right')
   }
 
   if (!productData) {

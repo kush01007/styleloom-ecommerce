@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ShopContext } from '../context/ShopContext'
 import axios from 'axios'
-import { toast } from 'react-toastify'
+import { showStatus } from '../utils/statusNotification'
 import { useLocation } from 'react-router-dom'
 
 const Login = () => {
@@ -29,10 +29,11 @@ const Login = () => {
         })
 
         if (response.data.success) {
+          showStatus('Account created successfully', 'success')
           setToken(response.data.token)
           localStorage.setItem('token', response.data.token)
         } else {
-          toast.error(response.data.message)
+          showStatus(response.data.message, 'error')
         }
       } else {
         const response = await axios.post(`${backendUrl}/api/user/login`, {
@@ -41,15 +42,16 @@ const Login = () => {
         })
 
         if (response.data.success) {
+          showStatus('Signed in successfully', 'success')
           setToken(response.data.token)
           localStorage.setItem('token', response.data.token)
         } else {
-          toast.error(response.data.message)
+          showStatus(response.data.message, 'error')
         }
       }
     } catch (error) {
       console.log(error)
-      toast.error(error.message)
+      showStatus(error.message, 'error')
     }
   }
 
