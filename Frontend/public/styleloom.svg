@@ -1,0 +1,5 @@
+<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <text x="8" y="80" font-family="Georgia, 'Times New Roman', serif" font-size="78" font-weight="500" fill="#D6C1AE">S</text>
+  <text x="64" y="80" font-family="Georgia, 'Times New Roman', serif" font-size="78" font-weight="500" fill="#D6C1AE">L</text>
+  <line x1="10" y1="99" x2="108" y2="99" stroke="#D6C1AE" stroke-width="2" opacity="0.95"></line>
+</svg>

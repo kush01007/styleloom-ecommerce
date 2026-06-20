@@ -1,9 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ArrowRight } from 'lucide-react'
 
 const NewsletterBox = () => {
+  const [email, setEmail] = useState('')
+  const [subscribed, setSubscribed] = useState(false)
+
   const onSubmitHandler = (event) => {
     event.preventDefault()
+    setEmail('')
+    setSubscribed(true)
   }
 
   return (
@@ -36,6 +41,11 @@ const NewsletterBox = () => {
             className='w-full lg:w-[470px] bg-white border border-[#e0d7ce] flex items-center h-[52px] sm:h-[58px] overflow-hidden'
           >
             <input
+              value={email}
+              onChange={(event) => {
+                setEmail(event.target.value)
+                setSubscribed(false)
+              }}
               className='min-w-0 flex-1 h-full px-4 sm:px-5 text-black text-[13px] sm:text-[14px] outline-none bg-transparent'
               type='email'
               placeholder='Enter your email'
@@ -46,7 +56,7 @@ const NewsletterBox = () => {
               className='h-full flex-shrink-0 px-4 sm:px-7 bg-black text-white text-[12px] sm:text-[13px] font-normal flex items-center gap-2 hover:opacity-90 transition'
               type='submit'
             >
-              Subscribe
+              {subscribed ? 'Subscribed' : 'Subscribe'}
               <ArrowRight size={16} strokeWidth={1.6} />
             </button>
           </form>
