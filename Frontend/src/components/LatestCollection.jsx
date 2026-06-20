@@ -9,7 +9,7 @@ const LatestCollection = () => {
 
   useEffect(() => {
     // Showing only 4 on homepage so the section looks complete
-    setLatestProducts(products.slice(0, 4))
+    setLatestProducts(products.slice(0, 8))
   }, [products])
   
   const goToCollection = () => {
