@@ -5,9 +5,9 @@ import { showStatus } from '../utils/statusNotification'
 import { useLocation } from 'react-router-dom'
 
 const Login = () => {
-  const [currentState, setCurrentState] = useState('Login')
+  const [currentState, setCurrentState] = useState('Sign Up')
 
-  const { token, setToken, navigate, backendUrl } = useContext(ShopContext)
+  const { token, setToken, navigate, backendUrl, cartItems, setCartItems } = useContext(ShopContext)
   const location = useLocation()
   const redirectTo = location.state?.from || '/'
 
@@ -16,6 +16,23 @@ const Login = () => {
   const [password, setPassword] = useState('')
 
   const isLogin = currentState === 'Login'
+
+  const completeAuthentication = async (authToken, successMessage) => {
+    const syncResponse = await axios.post(
+      `${backendUrl}/api/cart/sync`,
+      { cartData: cartItems },
+      { headers: { token: authToken } }
+    )
+
+    if (!syncResponse.data.success) {
+      throw new Error(syncResponse.data.message || 'Could not sync your cart')
+    }
+
+    setCartItems(syncResponse.data.cartData)
+    localStorage.setItem('token', authToken)
+    setToken(authToken)
+    showStatus(successMessage, 'success')
+  }
 
   const onSubmitHandler = async (event) => {
     event.preventDefault()
@@ -29,9 +46,7 @@ const Login = () => {
         })
 
         if (response.data.success) {
-          showStatus('Account created successfully', 'success')
-          setToken(response.data.token)
-          localStorage.setItem('token', response.data.token)
+          await completeAuthentication(response.data.token, 'Account created successfully')
         } else {
           showStatus(response.data.message, 'error')
         }
@@ -42,9 +57,7 @@ const Login = () => {
         })
 
         if (response.data.success) {
-          showStatus('Signed in successfully', 'success')
-          setToken(response.data.token)
-          localStorage.setItem('token', response.data.token)
+          await completeAuthentication(response.data.token, 'Signed in successfully')
         } else {
           showStatus(response.data.message, 'error')
         }
@@ -139,17 +152,17 @@ const Login = () => {
                 <button
                   type='button'
                   onClick={() => setCurrentState('Sign Up')}
-                  className='text-black border-b border-black pb-[2px] hover:opacity-60 transition'
+                  className='text-[#666] hover:text-black transition'
                 >
-                  Create account
+                  <span className='text-black border-b border-black pb-[2px]'>Create account</span>
                 </button>
               ) : (
                 <button
                   type='button'
                   onClick={() => setCurrentState('Login')}
-                  className='text-black border-b border-black pb-[2px] hover:opacity-60 transition'
+                  className='text-[#666] hover:text-black transition'
                 >
-                  Login here
+                <span className='text-black border-b border-black pb-[2px]'>Already have an account?</span>
                 </button>
               )}
             </div>
